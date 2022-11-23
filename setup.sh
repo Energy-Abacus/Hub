@@ -12,6 +12,10 @@ if [ "$EUID" -ne 0 ]
   exit
 fi
 
+echo "Installing git and ufw"
+DEBIAN_FRONTEND=noninteractive
+apt-get install -y git ufw
+
 echo "Installing docker"
 curl -sSL https://get.docker.com | sh
 
@@ -48,10 +52,7 @@ systemctl enable $service_name
 
 echo "Installing and configuring ufw"
 
-DEBIAN_FRONTEND=noninteractive
 current_subnet=ip -o -f inet addr show | awk '/scope global/ {print $4}'
-
-apt-get install -y ufw
 
 ufw enable
 ufw allow from $current_subnet to any port $broker_port
