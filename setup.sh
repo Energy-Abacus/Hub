@@ -23,11 +23,12 @@ echo "Enabling the docker-service"
 systemctl enable --now docker
 
 echo "Downloading config and docker-files"
+cd /
 git clone https://github.com/Energy-Abacus/Hub $docker_config_root
 
-cd $docker_config_root
+cd "$docker_config_root"
 
-touch config/password.txt
+touch "$docker_config_root/config/password.txt"
 
 docker compose up -d
 docker compose exec mosquitto mosquitto_passwd -b /mosquitto/config/password.txt $mosquitto_user $mosquitto_passwd
@@ -41,8 +42,7 @@ After=docker.service
 Type=oneshot
 RemainAfterExit=yes
 WorkingDirectory=$docker_config_root
-ExecStart=/usr/local/bin/docker-compose up -d
-ExecStop=/usr/local/bin/docker-compose down
+ExecStart=/usr/bin/docker compose up -d
 TimeoutStartSec=0
 
 [Install]
@@ -52,8 +52,6 @@ systemctl enable $service_name
 
 echo "Installing and configuring ufw"
 
-current_subnet=ip -o -f inet addr show | awk '/scope global/ {print $4}'
-
-ufw enable
-ufw allow from $current_subnet to any port $broker_port
+ufw --force enable
+ufw allow $broker_port
 ufw reload
