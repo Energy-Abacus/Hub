@@ -1,0 +1,19 @@
+= Abacus Hub
+
+== Setup
+
+On your newly setup Raspberry PI enter these commands:
+
+[source, bash]
+--
+sudo apt-get update
+sudo apt-get upgrade
+sudo reboot
+--
+
+After rebooting you can run the script:
+
+[source, bash]
+--
+curl -sSL https://github.com/Energy-Abacus/Hub | sudo bash
+--
