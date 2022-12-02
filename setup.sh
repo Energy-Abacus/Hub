@@ -75,8 +75,8 @@ ufw reload
 
 echo "Setting username and password for mosquitto"
 
-docker compose exec mosquitto mosquitto_passwd -b /mosquitto/config/password.txt $mosquitto_user_local $mosquitto_passwd_local
-docker compose exec mosquitto mosquitto_passwd -b /mosquitto/config/password.txt $mosquitto_user_remote $mosquitto_passwd_remote
+docker compose exec -T mosquitto mosquitto_passwd -b /mosquitto/config/password.txt $mosquitto_user_local $mosquitto_passwd_local
+docker compose exec -T mosquitto mosquitto_passwd -b /mosquitto/config/password.txt $mosquitto_user_remote $mosquitto_passwd_remote
 
 docker compose down
 bash startup.sh
