@@ -27,10 +27,6 @@ git clone https://github.com/Energy-Abacus/Hub $docker_config_root
 cd "$docker_config_root"
 touch "$docker_config_root/config/password.txt"
 
-echo "Starting mosquito"
-
-docker compose up -d
-
 echo "Creating config"
 
 randomPassword1=$(< /dev/urandom tr -dc _A-Z-a-z-0-9 | head -c${1:-32})
@@ -46,6 +42,10 @@ mosquitto_passwd_remote=$randomPassword2
 " > abacus_config
 
 source abacus_config
+
+echo "Starting mosquitto"
+
+docker compose up mosquitto
 
 echo "Creating service"
 
@@ -77,3 +77,6 @@ echo "Setting username and password for mosquitto"
 
 docker compose exec mosquitto mosquitto_passwd -b /mosquitto/config/password.txt $mosquitto_user_local $mosquitto_passwd_local
 docker compose exec mosquitto mosquitto_passwd -b /mosquitto/config/password.txt $mosquitto_user_remote $mosquitto_passwd_remote
+
+docker compose down
+bash startup.sh
