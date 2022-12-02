@@ -45,7 +45,7 @@ source abacus_config
 
 echo "Starting mosquitto"
 
-docker compose up mosquitto
+docker compose up mosquitto -d
 
 echo "Creating service"
 
