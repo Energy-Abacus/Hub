@@ -1,4 +1,4 @@
-
+version: "3.9"
 
 services:
   mosquitto:
@@ -10,6 +10,12 @@ services:
     ports:
       - 1883:1883
       - 9001:9001
-
+  listener:
+    image: ghcr.io/energy-abacus/mqttlistener:main
+    environment:
+      - mosquitto_ip=mosquitto
+      - mosquitoo_port=1883
+    env_file:
+      - abacus_config
 volumes:
   data: 
