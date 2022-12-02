@@ -15,5 +15,5 @@ After rebooting you can run the script:
 
 [source, bash]
 --
-curl -sSL https://github.com/Energy-Abacus/Hub | sudo bash
+curl -sSL https://raw.githubusercontent.com/Energy-Abacus/Hub/main/setup.sh | sudo bash
 --
