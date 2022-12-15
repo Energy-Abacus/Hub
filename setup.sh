@@ -71,6 +71,7 @@ echo "Installing and configuring ufw"
 ufw --force enable
 ufw allow $broker_port
 ufw allow $broker_port_ssl
+ufw allow ssh
 ufw reload
 
 echo "Setting username and password for mosquitto"
