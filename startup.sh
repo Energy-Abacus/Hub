@@ -9,3 +9,7 @@ source abacus_config
 /usr/bin/docker compose up -d
 
 python3 setup_api.py
+
+if ! nmcli -g GENERAL.STATE c s interface|grep -q -E '\bactiv'; then
+    nmcli dev wifi hotspot ifname wlan0 ssid Abacus-Hub
+fi

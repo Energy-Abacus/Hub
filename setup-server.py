@@ -13,12 +13,14 @@ app = Flask(__name__)
 @app.route('/setup', methods=['POST'])
 def setup_endpoint():
     post_token = request.args.get('postToken')
+    wifi_name = request.args.get('wifiName')
+    wifi_password = request.args.get('wifiPassword')
 
     dotenv.load_dotenv(CONFIG_PATH)
     dotenv.set_key(CONFIG_PATH, 'POST_TOKEN', post_token)
 
+    subprocess.run('nmcli', 'device', 'wifi', 'connect', wifi_name, 'password', wifi_password)
     subprocess.run([CONFIG_PATH + '/update.sh'])
-
     return {
         'user': os.environ['mosquitto_user_remote'],
         'password': os.environ['mosquitto_passwd_remote']
