@@ -4,6 +4,7 @@ docker_config_root="/Abacus/Hub"
 service_name="abacus-hub.service"
 broker_port="1883"
 broker_port_ssl="8883"
+setup_api_port="5000"
 
 if [ "$EUID" -ne 0 ]
   then echo "Please run as root"
@@ -71,13 +72,16 @@ echo "Installing and configuring ufw"
 ufw --force enable
 ufw allow $broker_port
 ufw allow $broker_port_ssl
-ufw allow ssh
+ufw allow $setup_api_port
 ufw reload
 
 echo "Setting username and password for mosquitto"
 
 docker compose exec -T mosquitto mosquitto_passwd -b /mosquitto/config/password.txt $mosquitto_user_local $mosquitto_passwd_local
 docker compose exec -T mosquitto mosquitto_passwd -b /mosquitto/config/password.txt $mosquitto_user_remote $mosquitto_passwd_remote
+
+echo "Installing pip packages"
+pip install -r requirements.txt
 
 docker compose down
 bash startup.sh
